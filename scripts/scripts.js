@@ -25,10 +25,16 @@ function calculateGrade(allGrades){
 	var finalGrades = ["A","B","C","D","F"];
 	var finalGrade;
 
-	for(var i = 0; i < allGrades.length; i++){
-		totalGrade += parseInt(allGrades[i]);
-		avgGrade = totalGrade / allGrades.length;
-	}
+	//for(var i = 0; i < allGrades.length; i++){
+		totalGrade += 2*parseInt(allGrades[0]);
+		totalGrade += 2*parseInt(allGrades[1]);
+		totalGrade += 2*parseInt(allGrades[2]);
+		totalGrade += 2*parseInt(allGrades[3]);
+		totalGrade += 2*parseInt(allGrades[4]);
+		totalGrade += parseInt(allGrades[5]);
+
+		avgGrade = totalGrade / 11;
+	//}
 
 	if(avgGrade >= 90){
 		finalGrade = finalGrades[0];
@@ -55,7 +61,7 @@ function calculateGrade(allGrades){
 function parseData(input){
 
 	var grades = input.split(",");
-	grades = grades.sort(function(a,b){return b-a});
+	//grades = grades.sort(function(a,b){return b-a});
 	calculateGrade(grades);
 
 }
