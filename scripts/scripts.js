@@ -22,7 +22,7 @@ function calculateGrade(allGrades){
 
 	var totalGrade = 0;
 	var avgGrade = 0;
-	var finalGrades = ["A","B","C","D","F"];
+	var finalGrades = ["O","A","B","C","D","F"];
 	var finalGrade;
 
 	//for(var i = 0; i < allGrades.length; i++){

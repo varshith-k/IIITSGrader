@@ -10,3 +10,22 @@ p { font-weight: bold; }
 .blue { color: blue; }
 .orange { color: orange; }
 .red { color: red; }
+
+table {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid grey;
+    width: 70%;
+}
+
+tr:nth-last-of-type(odd) {
+    background-color: rgb(238, 225, 225);
+}
+
+tr td {
+    border: 2px solid #ccc;
+}
+
+tr,td {
+    padding: 10px;
+}
