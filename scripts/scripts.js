@@ -1,94 +1,63 @@
-var gDom = document.getElementById("grades");
-var aDom = document.getElementById("avg_grades");
-var fDom = document.getElementById("final_grade");
-var iDom = document.getElementById('yourgrades');
+var calculateGrade = document.getElementById('calculate-grade'),
+	addCourseForm = document.getElementById('add-course-form'),
+	addCourseBtn = document.getElementById('add-course-btn'),
+	gradeTable = document.getElementById('grade-table'),
+	outputPane = document.getElementById('output-pane');
 
-function outputData(g,a,f){
-
-	gDom.innerHTML = g;
-	aDom.innerHTML = a.toFixed(1);
-	fDom.innerHTML = f;
+function setOutput(cgpa, fail) {
+	outputPane.innerHTML = "";
+	if (fail) outputPane.innerHTML = "Everything will be alright 🦸. Prepare for supplies ! <br>";
+	outputPane.innerHTML += "Your Final grade for this Semester is: ";
+	outputPane.innerHTML += "<span id='final-grade'>" + cgpa + "</span>";
 }
 
-function saveGradeAsCookie(grade,letter){
-
-	/* Cookie disabled - Angelica Cortez */
-	console.log("Cookie would be saved");
-	//document.cookie += " Your grade: " + grade + " (" + letter + ") \n";
-
+function validateInput(grade) {
+	if (grade > 10) return "Invalid Grade. It must be less than 10 Unless you are a superhuman.";
+	return "";
 }
 
-function calculateGrade(allGrades){
+addCourseBtn.addEventListener('click', function (e) {
+	e.preventDefault();
+	var grade = addCourseForm.grade.value,
+		credits = addCourseForm.credits.value;
 
-	var totalGrade = 0;
-	var avgGrade = 0;
-	var finalGrades = ["O","A","B","C","D","F"];
-	var finalGrade;
+	if (!grade || !credits) { alert('enter both credit and grade'); return; }
 
-	//for(var i = 0; i < allGrades.length; i++){
-		totalGrade += 2*parseInt(allGrades[0]);
-		totalGrade += 2*parseInt(allGrades[1]);
-		totalGrade += 2*parseInt(allGrades[2]);
-		totalGrade += 2*parseInt(allGrades[3]);
-		totalGrade += 2*parseInt(allGrades[4]);
-		totalGrade += parseInt(allGrades[5]);
-
-		avgGrade = totalGrade / 11;
-	//}
-
-	if(avgGrade >= 90){
-		finalGrade = finalGrades[0];
-		fDom.className = "green";
-	} else if(avgGrade >= 80 && avgGrade < 90) {
-		finalGrade = finalGrades[1];
-		fDom.className = "teal";
-	} else if(avgGrade >= 70 && avgGrade < 80) {
-		finalGrade = finalGrades[2];
-		fDom.className = "blue";
-	} else if(avgGrade >= 60 && avgGrade < 70) {
-		finalGrade = finalGrades[3];
-		fDom.className = "orange";
-	} else {
-		finalGrade = finalGrades[4];
-		fDom.className = "red";
+	if (validateInput(grade, credits) != "") {
+		alert(validateInput(grade, credits));
+		return;
 	}
 
-	outputData(allGrades, avgGrade, finalGrade);
-	saveGradeAsCookie(avgGrade, finalGrade);
+	var tableRow = document.createElement('tr'), gradeTd = document.createElement('td');
+	gradeTd.innerHTML = grade;
+	var creditsTd = document.createElement('td');
+	creditsTd.innerHTML = credits;
+	tableRow.appendChild(creditsTd);
+	tableRow.appendChild(gradeTd);
 
-}
+	gradeTable.appendChild(tableRow);
+	calculateGradeFunc();
+});
 
-function parseData(input){
-
-	var grades = input.split(",");
-	//grades = grades.sort(function(a,b){return b-a});
-	calculateGrade(grades);
-
-}
-
-function submit(){
-
-	if(iDom.value === ''){
-		alert("You did not enter any grades");
-	} else {
-		parseData(iDom.value);
+function calculateGradeFunc() {
+	var creditWeight = 0,
+		creditsSum = 0,
+		fail = false,
+		trs = Array.from(gradeTable.querySelectorAll('tr'));
+	trs.splice(0, 1);
+	for (var i = 0; i < trs.length; ++i) {
+		var tds = Array.from(trs[i].querySelectorAll('td'));
+		var credits = tds[0].innerHTML;
+		var grade = tds[1].innerHTML;
+		console.log(grade);
+		console.log(credits);
+		creditWeight += (credits * grade);
+		creditsSum += parseInt(credits);
+		if (grade < 5) fail = true;
 	}
 
+	if ((creditWeight == 0 || creditsSum == 0) && (!fail)) { alert('please enter valid grades !'); return; }
+
+	var cgpa = creditWeight / creditsSum;
+	setOutput(cgpa, fail);
 }
-
-
-/* Below inputs data from a "mygrades.txt" file */
-
-var myInputData = new XMLHttpRequest();
-myInputData.open("GET","mygrades.txt");
-
-myInputData.onreadystatechange = function(){
-	if(myInputData.readyState == 4){
-		if(myInputData.status == 200){
-			console.log(myInputData.responseText);
-			parseData(myInputData.responseText);
-		}
-	}
-};
-
-myInputData.send();
