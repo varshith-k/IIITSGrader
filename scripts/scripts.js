@@ -11,7 +11,8 @@ function setOutput(cgpa, fail) {
 	outputPane.innerHTML += "<span id='final-grade'>" + cgpa + "</span>";
 }
 
-function validateInput(grade) {
+function validateInput(grade, credits) {
+	if (grade <= 0 || credits <= 0) return "Both grade and credit must be positive";
 	if (grade > 10) return "Invalid Grade. It must be less than 10 Unless you are a superhuman.";
 	return "";
 }
@@ -21,7 +22,7 @@ addCourseBtn.addEventListener('click', function (e) {
 	var grade = addCourseForm.grade.value,
 		credits = addCourseForm.credits.value;
 
-	if (!grade || !credits) { alert('enter both credit and grade'); return; }
+	if (!grade || !credits) { alert('Enter both credit and grade'); return; }
 
 	if (validateInput(grade, credits) != "") {
 		alert(validateInput(grade, credits));
@@ -46,11 +47,9 @@ function calculateGradeFunc() {
 		trs = Array.from(gradeTable.querySelectorAll('tr'));
 	trs.splice(0, 1);
 	for (var i = 0; i < trs.length; ++i) {
-		var tds = Array.from(trs[i].querySelectorAll('td'));
-		var credits = tds[0].innerHTML;
-		var grade = tds[1].innerHTML;
-		console.log(grade);
-		console.log(credits);
+		var tds = Array.from(trs[i].querySelectorAll('td')),
+			credits = tds[0].innerHTML,
+			grade = tds[1].innerHTML;
 		creditWeight += (credits * grade);
 		creditsSum += parseInt(credits);
 		if (grade < 5) fail = true;
