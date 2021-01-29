@@ -11,7 +11,8 @@ a { text-decoration: none; color: rebeccapurple; }
 .red { color: red; }
 #final-grade { color: red; }
 input {padding: 4px; outline: none; border-radius: 5px;}
-
+#grade-table {border: none;}
+/* #grade-table tr td:last-child {padding: none; margin: none; border: none; color: black; background-color: #eee;} */
 table {
     padding: 20px;
     margin: 10px;
