@@ -14,6 +14,11 @@
 
 <body>
 
+	var inc=0;
+ function myFunction() {
+    inc=inc+1;
+    alert(inc);    
+ }
 	<div class="wrapper">
 
 		<h1>Grade Calculator</h1>
@@ -64,7 +69,7 @@
 			<label for="grade">Grade: </label>
 			<input type="text" name="grade" required>
 			<br><br>
-			<button id="add-course-btn">Add The Course Entry</button>
+			<button id="add-course-btn" onclick="myFunction()">Add The Course Entry</button>
 		</form>
 
 		<center>
