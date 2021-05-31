@@ -9,6 +9,15 @@ function removeRow(e) {
     calculateGradeFunc();
 }
 
+const mp = {
+    O: 10,
+    A: 9,
+    B: 8,
+    C: 7,
+    D: 6,
+    E: 5,
+};
+
 function setOutput(cgpa, fail) {
     outputPane.innerHTML = "";
     if (fail)
@@ -19,10 +28,12 @@ function setOutput(cgpa, fail) {
 }
 
 function validateInput(grade, credits) {
-    if (grade <= 0 || credits <= 0)
-        return "Both grade and credit must be positive";
-    if (grade > 10)
-        return "Invalid Grade. It must be less than 10 Unless you are a superhuman.";
+    if (!isNaN(+credits)) {
+        if (grade <= 0 || credits <= 0)
+            return "Both grade and credit must be positive";
+        if (grade > 10)
+            return "Invalid Grade. It must be less than 10 Unless you are a superhuman.";
+    }
     return "";
 }
 
