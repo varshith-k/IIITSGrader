@@ -5,6 +5,7 @@ var calculateGrade = document.getElementById("calculate-grade"),
     outputPane = document.getElementById("output-pane");
 
 function removeRow(e) {
+    console.log(e.target.parentElement.parentElement);
     e.target.parentElement.parentElement.remove();
     calculateGradeFunc();
 }
@@ -61,7 +62,7 @@ addCourseBtn.addEventListener("click", function (e) {
     tableRow.appendChild(gradeTd);
     var iTag = document.createElement("i"),
         removeIcon = document.createElement("td");
-    removeIcon.addEventListener("click", removeRow);
+    iTag.addEventListener("click", removeRow);
     iTag.classList.add("fas");
     iTag.classList.add("fa-trash");
     removeIcon.appendChild(iTag);
